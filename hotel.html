@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jealous Flights - Hotels</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Arial',sans-serif;background-image:url('https://images.unsplash.com/photo-1558285549-827043e3d8a8?w=600&auto=format&fit=crop&q=60');background-size:cover;background-position:center;background-attachment:fixed;min-height:100vh}
+    .header{background:#fff;padding:15px 40px;box-shadow:0 2px 10px rgba(0,0,0,.1);display:flex;justify-content:space-between;align-items:center}
+    .logo{width:120px;height:60px}
+    .logo img{width:100%;height:100%;object-fit:contain;border-radius:10px}
+    .nav-menu{display:flex;gap:30px;align-items:center}
+    .nav-item{color:#333;text-decoration:none;font-weight:500;font-size:14px;cursor:pointer;transition:color .3s}
+    .nav-item:hover{color:#007bff}
+    .login-btn{background:#007bff;color:#fff;padding:8px 20px;border-radius:5px;border:none;cursor:pointer;font-weight:600}
+    .main-container{max-width:1200px;margin:40px auto;padding:0 20px}
+    .booking-section{background:#fff;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,.15);overflow:hidden}
+    .tabs{display:flex;background:#f5f5f5}
+    .tab{flex:1;padding:15px 20px;text-align:center;cursor:pointer;font-weight:600;color:#666;transition:all .3s;border-bottom:3px solid transparent;text-decoration:none}
+    .tab.active{background:#1e3a8a;color:#fff;border-bottom:3px solid #1e3a8a}
+    .booking-content{padding:30px}
+    .search-box{background:#f9fafb;padding:25px;border-radius:8px;margin-bottom:20px}
+    .search-row{display:grid;grid-template-columns:2fr 1.5fr 1.5fr 1fr 1fr;gap:15px;margin-bottom:20px}
+    .search-field{background:#fff;border:1px solid #e0e0e0;border-radius:5px;padding:15px;transition:all .3s}
+    .search-field:hover{border-color:#1e3a8a;box-shadow:0 2px 8px rgba(30,58,138,.1)}
+    .field-label{font-size:11px;color:#666;margin-bottom:5px;display:block}
+    .field-input{width:100%;border:none;outline:none;font-size:16px;font-weight:600;color:#1e3a8a;background:transparent}
+    .search-button{width:100%;padding:15px;background:#1e3a8a;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;text-transform:uppercase;letter-spacing:1px}
+    .search-button:hover{background:#152a6b;transform:translateY(-2px);box-shadow:0 5px 15px rgba(30,58,138,.3)}
+    .results{margin-top:40px}
+    .results h2{margin-bottom:20px;color:#1e3a8a}
+    table{border-collapse:collapse;width:100%;text-align:left}
+    thead{background:#1e3a8a;color:#fff}
+    th,td{border:1px solid #cbd5e1;padding:10px}
+    @media(max-width:768px){.search-row{grid-template-columns:1fr}.nav-menu{display:none}}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo"><img src="https://images.unsplash.com/photo-1572573385781-2fd4f8c1389e?w=600&auto=format&fit=crop&q=60" alt="Jealous Flights"></div>
+    <div class="nav-menu">
+     
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="booking-section">
+      <div class="tabs">
+        <a href="chatbot.html" class="tab">✈️ Back</a>
+        <a href="hotel.html" class="tab active">🏨 Hotels</a>
+        
+      </div>
+
+      <div class="booking-content">
+        <div class="search-box">
+          <form id="hotelSearchForm">
+            <div class="search-row">
+              <div class="search-field">
+                <label class="field-label">City</label>
+                <select class="field-input" id="city" required>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Chennai">Chennai</option>
+                  <option value="Bangalore">Bangalore</option>
+                  <option value="Kolkata">Kolkata</option>
+                </select>
+              </div>
+              <div class="search-field">
+                <label class="field-label">Check-in</label>
+                <input type="date" class="field-input" id="checkIn" required>
+              </div>
+              <div class="search-field">
+                <label class="field-label">Check-out</label>
+                <input type="date" class="field-input" id="checkOut" required>
+              </div>
+              <div class="search-field">
+                <label class="field-label">Guests</label>
+                <select class="field-input" id="guests" required>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
+              <div class="search-field">
+                <label class="field-label">Rooms</label>
+                <select class="field-input" id="rooms" required>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="search-button">Search Hotels</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="hotelResults" class="results" style="display:none;background:white;padding:20px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);margin-top:20px;">
+      <h2 style="color:#1e3a8a;margin-bottom:20px;border-bottom:2px solid #e5e7eb;padding-bottom:10px;">Available Hotels</h2>
+        <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+        <thead>
+          <tr style="background-color:#1e3a8a;color:white;">
+            <th style="padding:12px;text-align:left;">ID</th>
+            <th style="padding:12px;text-align:left;">Hotel Name</th>
+            <th style="padding:12px;text-align:left;">Image</th>
+            <th style="padding:12px;text-align:left;">City</th>
+            <th style="padding:12px;text-align:left;">Check-in</th>
+            <th style="padding:12px;text-align:left;">Check-out</th>
+            <th style="padding:12px;text-align:right;">Price/Night</th>
+            <th style="padding:12px;text-align:center;">Rating</th>
+            <th style="padding:12px;text-align:center;">Status</th>
+          </tr>
+        </thead>
+        <tbody id="hotelsTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const today = new Date().toISOString().split('T')[0];
+    const checkInEl = document.getElementById('checkIn');
+    const checkOutEl = document.getElementById('checkOut');
+    checkInEl.setAttribute('min', today);
+    checkOutEl.setAttribute('min', today);
+
+    checkInEl.addEventListener('change', () => {
+      checkOutEl.min = checkInEl.value || today;
+      if (checkOutEl.value && checkOutEl.value < checkOutEl.min) {
+        checkOutEl.value = checkOutEl.min;
+      }
+    });
+
+    const fmt = new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR'
+    });
+
+    // Load hotels from database
+    let sampleHotels = [];
+    const API_BASE = 'http://localhost:3000';
+
+    async function loadHotelsFromDB() {
+      try {
+        const response = await fetch(`${API_BASE}/api/hotels`);
+        const data = await response.json();
+        
+        if (data.success && data.hotels) {
+          sampleHotels = data.hotels;
+          console.log('Loaded hotels from database:', sampleHotels.length);
+        }
+      } catch (error) {
+        console.error('Error loading hotels:', error);
+        // Fallback to empty array if database fails
+        sampleHotels = [];
+      }
+    }
+
+    // Load hotels on page load
+    loadHotelsFromDB();
+
+    document.getElementById('hotelSearchForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const city = document.getElementById('city').value;
+      const checkIn = document.getElementById('checkIn').value;
+      const checkOut = document.getElementById('checkOut').value;
+      const guests = document.getElementById('guests').value;
+      const rooms = document.getElementById('rooms').value;
+
+      const resultsDiv = document.getElementById('hotelResults');
+      const hotelsTable = document.getElementById('hotelsTable');
+      
+      // Show loading state
+      hotelsTable.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:20px;">Searching for hotels in ' + city + '...</td></tr>';
+      resultsDiv.style.display = 'block';
+
+      try {
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Filter hotels by city (case-insensitive)
+        const filteredHotels = sampleHotels.filter(hotel => 
+          hotel.city.toLowerCase() === city.toLowerCase()
+        );
+
+        // Display the filtered hotels
+        displayHotels(filteredHotels, { city, checkIn, checkOut, guests, rooms });
+
+      } catch (error) {
+        console.error('Error:', error);
+        hotelsTable.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align:center;padding:20px;color:red;">
+              Error loading hotels. Please try again later.<br>
+              <small>${error.message || 'Unknown error occurred'}</small>
+            </td>
+          </tr>`;
+      }
+    });
+
+    function displayHotels(hotels, searchParams) {
+      const hotelsTable = document.getElementById('hotelsTable');
+      
+      // Clear existing rows
+      hotelsTable.innerHTML = '';
+
+      if (hotels.length === 0) {
+        hotelsTable.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align:center;padding:20px;">
+              No hotels found in ${searchParams.city}. Please try a different city.
+            </td>
+          </tr>`;
+        return;
+      }
+
+      // Add a row for each hotel
+      hotels.forEach(hotel => {
+        const row = document.createElement('tr');
+        
+        // Format the price with currency
+        const formattedPrice = fmt.format(hotel.price_per_night);
+        
+        // Create star rating
+        const starRating = '★'.repeat(Math.round(hotel.rating)) + '☆'.repeat(5 - Math.round(hotel.rating));
+        
+        // Set row HTML
+        row.innerHTML = `
+          <td>${hotel.hotel_id}</td>
+          <td><strong>${hotel.hotel_name}</strong></td>
+          <td><img src="${hotel.image_url}" alt="${hotel.hotel_name}" style="width:80px;height:60px;object-fit:cover;border-radius:4px;"></td>
+          <td>${hotel.city}</td>
+          <td>${searchParams.checkIn || 'N/A'}</td>
+          <td>${searchParams.checkOut || 'N/A'}</td>
+          <td>${formattedPrice}</td>
+          <td title="${hotel.rating}/5">${starRating}</td>
+          <td><span style="color:green;font-weight:bold;">${hotel.availability}</span></td>
+        `;
+        
+        // Add click handler for booking
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', () => {
+          showBookingModal(hotel, searchParams);
+        });
+        
+        // Add hover effect
+        row.style.transition = 'background-color 0.2s';
+        row.addEventListener('mouseenter', () => {
+          row.style.backgroundColor = '#f8f9fa';
+        });
+        row.addEventListener('mouseleave', () => {
+          row.style.backgroundColor = '';
+        });
+        
+        hotelsTable.appendChild(row);
+      });
+    }
+
+    // Show booking modal
+    function showBookingModal(hotel, searchParams) {
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:1000;';
+      
+      const modalContent = document.createElement('div');
+      modalContent.style.cssText = 'background:white;padding:30px;border-radius:10px;max-width:500px;width:90%;max-height:90vh;overflow-y:auto;';
+      
+      modalContent.innerHTML = `
+        <h2 style="color:#1e3a8a;margin-bottom:20px;">Book ${hotel.hotel_name}</h2>
+        <p style="color:#666;margin-bottom:20px;">
+          <strong>City:</strong> ${hotel.city}<br>
+          <strong>Check-in:</strong> ${searchParams.checkIn}<br>
+          <strong>Check-out:</strong> ${searchParams.checkOut}<br>
+          <strong>Guests:</strong> ${searchParams.guests}<br>
+          <strong>Rooms:</strong> ${searchParams.rooms}<br>
+          <strong>Price per night:</strong> ${fmt.format(hotel.price_per_night)}
+        </p>
+        <form id="bookingForm" style="display:flex;flex-direction:column;gap:15px;">
+          <div>
+            <label style="display:block;margin-bottom:5px;font-weight:600;color:#333;">Customer Name *</label>
+            <input type="text" id="customerName" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:14px;">
+          </div>
+          <div>
+            <label style="display:block;margin-bottom:5px;font-weight:600;color:#333;">Email *</label>
+            <input type="email" id="customerEmail" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:14px;">
+          </div>
+          <div>
+            <label style="display:block;margin-bottom:5px;font-weight:600;color:#333;">Phone *</label>
+            <input type="tel" id="customerPhone" required pattern="[0-9]{10}" placeholder="10 digit number" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:14px;">
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px;">
+            <button type="submit" style="flex:1;padding:12px;background:#1e3a8a;color:white;border:none;border-radius:5px;font-weight:600;cursor:pointer;">Confirm Booking</button>
+            <button type="button" id="cancelBtn" style="flex:1;padding:12px;background:#dc2626;color:white;border:none;border-radius:5px;font-weight:600;cursor:pointer;">Cancel</button>
+          </div>
+        </form>
+      `;
+      
+      modal.appendChild(modalContent);
+      document.body.appendChild(modal);
+      
+      // Handle form submission
+      document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const bookingData = {
+          customer_name: document.getElementById('customerName').value,
+          email: document.getElementById('customerEmail').value,
+          phone: document.getElementById('customerPhone').value,
+          hotel_id: hotel.hotel_id,
+          check_in: searchParams.checkIn,
+          check_out: searchParams.checkOut,
+          guests: searchParams.guests,
+          rooms: searchParams.rooms
+        };
+        
+        try {
+          const response = await fetch('http://localhost:3000/api/hotels/book', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookingData)
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            alert(`✅ Booking Confirmed!\n\nHotel: ${hotel.hotel_name}\nCustomer: ${bookingData.customer_name}\nBooking ID: ${result.customer_id}\n\nThank you for your booking!`);
+            modal.remove();
+          } else {
+            alert('❌ Booking failed: ' + (result.error || 'Unknown error'));
+          }
+        } catch (error) {
+          console.error('Booking error:', error);
+          alert('❌ Error: Could not connect to server. Please make sure the server is running on port 3000.');
+        }
+      });
+      
+      // Handle cancel
+      document.getElementById('cancelBtn').addEventListener('click', () => {
+        modal.remove();
+      });
+      
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    }
+  </script>
+</body>
+</html>

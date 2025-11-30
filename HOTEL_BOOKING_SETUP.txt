@@ -1,0 +1,155 @@
+═══════════════════════════════════════════════════════════════
+  HOTEL BOOKING SYSTEM - SETUP COMPLETE ✅
+═══════════════════════════════════════════════════════════════
+
+🎉 Hotel booking with customer details is now fully integrated!
+
+📋 WHAT WAS DONE:
+
+1. ✅ Updated hotel.sql
+   - Added customers table with all required fields:
+     • customer_id (Primary Key)
+     • customer_name
+     • email
+     • phone
+     • hotel_id (Foreign Key to hotels)
+     • check_in
+     • check_out
+     • guests
+     • rooms
+     • booking_date (auto timestamp)
+
+2. ✅ Updated flight-server.js
+   - Added POST /api/hotels/book endpoint
+     → Saves customer booking to hotels_dashboard.customers
+   - Added GET /api/admin/hotel-bookings endpoint
+     → Fetches all hotel bookings with customer & hotel details
+
+3. ✅ Updated hotel.html
+   - Added booking modal with customer form
+   - Collects: Customer Name, Email, Phone
+   - Sends booking data to backend API
+   - Shows confirmation with booking ID
+
+4. ✅ Updated js/admin.js
+   - Displays hotel bookings in admin dashboard
+   - Shows: Booking ID, Hotel Name, Customer Name, City, 
+            Check-in, Check-out, Total Amount
+
+═══════════════════════════════════════════════════════════════
+  HOW TO USE
+═══════════════════════════════════════════════════════════════
+
+STEP 1: UPDATE DATABASE
+Run this SQL to create the customers table:
+
+USE hotels_dashboard;
+
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    email VARCHAR(100),
+    phone VARCHAR(15),
+    hotel_id INT,
+    check_in DATE,
+    check_out DATE,
+    guests INT,
+    rooms INT,
+    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (hotel_id) REFERENCES hotels(hotel_id)
+);
+
+STEP 2: START SERVER
+node flight-server.js
+
+STEP 3: BOOK A HOTEL
+1. Open hotel.html in browser
+2. Search for hotels by city
+3. Click on any hotel row
+4. Fill in customer details:
+   - Customer Name
+   - Email
+   - Phone (10 digits)
+5. Click "Confirm Booking"
+6. Get booking confirmation!
+
+STEP 4: VIEW IN ADMIN DASHBOARD
+1. Open admin.html
+2. Login (admin/youradmin25)
+3. Click "Hotel Bookings" in sidebar
+4. See all bookings with customer details!
+
+═══════════════════════════════════════════════════════════════
+  API ENDPOINTS
+═══════════════════════════════════════════════════════════════
+
+POST /api/hotels/book
+Request Body:
+{
+  "customer_name": "John Doe",
+  "email": "john@example.com",
+  "phone": "9876543210",
+  "hotel_id": 1,
+  "check_in": "2025-11-10",
+  "check_out": "2025-11-12",
+  "guests": 2,
+  "rooms": 1
+}
+
+Response:
+{
+  "success": true,
+  "customer_id": 1,
+  "message": "Hotel booked successfully"
+}
+
+---
+
+GET /api/admin/hotel-bookings
+Response:
+{
+  "success": true,
+  "data": [
+    {
+      "customer_id": 1,
+      "customer_name": "John Doe",
+      "email": "john@example.com",
+      "phone": "9876543210",
+      "check_in": "2025-11-10",
+      "check_out": "2025-11-12",
+      "guests": 2,
+      "rooms": 1,
+      "hotel_id": 1,
+      "hotel_name": "Hotel Taj",
+      "city": "Mumbai",
+      "price_per_night": 12000.00,
+      "rating": 4.9
+    }
+  ]
+}
+
+═══════════════════════════════════════════════════════════════
+  ADMIN DASHBOARD VIEW
+═══════════════════════════════════════════════════════════════
+
+Hotel Bookings section now shows:
+┌──────────┬─────────────┬──────────────┬────────┬───────────┬────────────┬──────────┐
+│ Booking  │ Hotel Name  │ Customer     │ City   │ Check-in  │ Check-out  │ Amount   │
+│ ID       │             │ Name         │        │           │            │          │
+├──────────┼─────────────┼──────────────┼────────┼───────────┼────────────┼──────────┤
+│ 1        │ Hotel Taj   │ John Doe     │ Mumbai │ Nov 10    │ Nov 12     │ ₹24,000  │
+└──────────┴─────────────┴──────────────┴────────┴───────────┴────────────┴──────────┘
+
+═══════════════════════════════════════════════════════════════
+  FILES MODIFIED
+═══════════════════════════════════════════════════════════════
+
+✅ hotel.sql            → Added customers table with booking fields
+✅ flight-server.js     → Added hotel booking endpoints
+✅ hotel.html           → Added booking modal & customer form
+✅ js/admin.js          → Updated to show hotel bookings
+
+═══════════════════════════════════════════════════════════════
+
+🎯 DONE! Hotel bookings with customer details are now stored 
+   in hotel.sql and displayed in admin.html!

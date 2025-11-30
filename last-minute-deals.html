@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Minute Flight Deals - Find Best Offers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/last-minute-deals.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="topbar">
+                <a href="/modern-flight-booking.html" id="backBtn" class="back-btn" aria-label="Go back">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </a>
+            </div>
+            <div class="hero-content">
+                <h1>Book Your Best Last-Minute Deal!</h1>
+                <p class="subtitle">Find amazing flight deals across top travel platforms</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Deals Section -->
+            <section class="deals-section">
+                <div class="section-header">
+                    <h2>Today's Best Flight Deals</h2>
+                    <p>Last updated: <span id="currentDate"></span></p>
+                </div>
+                
+                <!-- Deals Grid -->
+                <div class="deals-grid" id="dealsContainer">
+                    <!-- Deals will be dynamically inserted here by JavaScript -->
+                </div>
+                
+                <!-- Platform Comparison -->
+                <div class="platform-comparison">
+                    <h3>Which Platform is Best For You?</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <i class="fas fa-globe-americas"></i>
+                            <h4>Global Searches</h4>
+                            <p><strong>Skyscanner</strong> and <strong>Google Flights</strong> offer the best international flight comparisons.</p>
+                        </div>
+                        <div class="comparison-item">
+                            <i class="fas fa-rupee-sign"></i>
+                            <h4>Domestic Flights</h4>
+                            <p><strong>EaseMyTrip</strong> and <strong>Cleartrip</strong> provide excellent deals on Indian routes.</p>
+                        </div>
+                        <div class="comparison-item">
+                            <i class="fas fa-bolt"></i>
+                            <h4>Last-Minute Deals</h4>
+                            <p><strong>FlightsMojo</strong> specializes in unpublished last-minute fares with phone support.</p>
+                        </div>
+                        <div class="comparison-item">
+                            <i class="fas fa-percentage"></i>
+                            <h4>Direct Airline Deals</h4>
+                            <p>Check <strong>Air India</strong> for exclusive direct booking promotions and flash sales.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Newsletter Section -->
+            <section class="newsletter-section">
+                <div class="newsletter-content">
+                    <h3>Get the Hottest Deals in Your Inbox</h3>
+                    <p>Subscribe to receive exclusive last-minute flight deals and travel tips.</p>
+                    <form id="nlForm" class="newsletter-form" novalidate>
+                        <input id="nlEmail" type="email" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn-primary">Subscribe Now</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Flights</a></li>
+                        <li><a href="#">Status</a></li>
+                        <li><a href="#">Packages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Last Minute Flight Deals. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="dealDetailsModal" style="display:none; position:fixed; inset:0; z-index:70; align-items:center; justify-content:center;">
+      <div style="position:absolute; inset:0; background:rgba(0,0,0,.55);"></div>
+      <div role="dialog" aria-modal="true" style="position:relative; width:min(560px,92vw); background:#fff; border-radius:14px; box-shadow:0 20px 60px rgba(2,6,23,.25); overflow:hidden;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid #e2e8f0;">
+          <h3 style="margin:0; font-size:18px;">Deal Details</h3>
+          <button id="detClose" type="button" aria-label="Close" style="border:none; background:transparent; font-size:20px; cursor:pointer;">×</button>
+        </div>
+        <div style="padding:16px; display:flex; flex-direction:column; gap:10px;">
+          <div style="font-weight:800; font-size:18px;" id="detTitle">Route</div>
+          <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px; font-size:14px; color:#0f172a;">
+            <div><div style="color:#64748b; font-size:12px;">Airline</div><div id="detAirline" style="font-weight:700;">—</div></div>
+            <div><div style="color:#64748b; font-size:12px;">Flight No</div><div id="detFlightNo" style="font-weight:700;">—</div></div>
+            <div><div style="color:#64748b; font-size:12px;">Date</div><div id="detDate" style="font-weight:700;">—</div></div>
+            <div><div style="color:#64748b; font-size:12px;">Duration</div><div id="detDur" style="font-weight:700;">—</div></div>
+            <div><div style="color:#64748b; font-size:12px;">Departure</div><div id="detDep" style="font-weight:700;">—</div></div>
+            <div><div style="color:#64748b; font-size:12px;">Arrival</div><div id="detArr" style="font-weight:700;">—</div></div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:6px;">
+            <div style="font-size:14px; color:#64748b;">Base Fare</div>
+            <div id="detBase" style="font-weight:900; color:#16a34a; font-size:20px;">₹0</div>
+          </div>
+          <select id="detDiscount" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:10px;">
+            <option value="None|0">No Discount</option>
+            <option value="Senior Citizen|10">Senior Citizen - 10%</option>
+            <option value="Armed Forces|15">Armed Forces - 15%</option>
+            <option value="Government Employee|8">Government Employee - 8%</option>
+            <option value="Festive Offer|5">Festive Offer - 5%</option>
+          </select>
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div id="detStatus" style="font-size:12px; color:#64748b;">Select a discount if eligible.</div>
+            <button id="btnProceedBook" type="button" class="btn-primary" style="padding:10px 14px; border-radius:10px; font-weight:800;">Proceed to Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dealBookModal" style="display:none; position:fixed; inset:0; z-index:75; align-items:center; justify-content:center;">
+      <div style="position:absolute; inset:0; background:rgba(0,0,0,.55);"></div>
+      <div role="dialog" aria-modal="true" style="position:relative; width:min(560px,92vw); background:#fff; border-radius:14px; box-shadow:0 20px 60px rgba(2,6,23,.25); overflow:hidden;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid #e2e8f0;">
+          <h3 style="margin:0; font-size:18px;">Passenger Details</h3>
+          <button id="bkClose" type="button" aria-label="Close" style="border:none; background:transparent; font-size:20px; cursor:pointer;">×</button>
+        </div>
+        <div style="padding:16px; display:flex; flex-direction:column; gap:10px;">
+          <input id="bkName" type="text" placeholder="Passenger Name" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:10px;" />
+          <input id="bkAge" type="number" min="1" max="120" placeholder="Age" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:10px;" />
+          <input id="bkEmail" type="email" placeholder="Email" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:10px;" />
+          <input id="bkPhone" type="tel" placeholder="Phone" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:10px;" />
+          <select id="bkIdType" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:10px;">
+            <option value="Aadhaar">Aadhaar</option>
+            <option value="PAN">PAN</option>
+            <option value="Passport">Passport</option>
+            <option value="Other">Other</option>
+          </select>
+          <input id="bkIdNo" type="text" placeholder="Government ID Number" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:10px;" />
+          <select id="bkDiscount" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:10px;"></select>
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:14px; color:#64748b;">Total Fare</div>
+            <div id="bkTotal" style="font-weight:900; color:#16a34a; font-size:20px;">₹0</div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div id="bkStatus" style="font-size:12px; color:#64748b;">Verify details before payment.</div>
+            <button id="btnConfirmPay" type="button" class="btn-primary" style="padding:10px 14px; border-radius:10px; font-weight:800;">Confirm & Pay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dealPayModal" style="display:none; position:fixed; inset:0; z-index:80; align-items:center; justify-content:center;">
+      <div style="position:absolute; inset:0; background:rgba(0,0,0,.55);"></div>
+      <div role="dialog" aria-modal="true" style="position:relative; width:min(480px,92vw); background:#fff; border-radius:14px; box-shadow:0 20px 60px rgba(2,6,23,.25); overflow:hidden;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid #e2e8f0;">
+          <h3 style="margin:0; font-size:18px;">Payment</h3>
+          <button id="payCloseD" type="button" aria-label="Close" style="border:none; background:transparent; font-size:20px; cursor:pointer;">×</button>
+        </div>
+        <div style="padding:16px;">
+          <div style="display:flex; gap:10px; align-items:center; margin:12px 0;">
+            <select id="payMethod" style="flex:1; padding:10px; border:1px solid #e2e8f0; border-radius:10px;">
+              <option value="UPI">UPI</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value="Net Banking">Net Banking</option>
+            </select>
+            <button id="btnPayDeal" type="button" class="btn-primary" style="padding:12px 16px; border-radius:12px; font-weight:800;">Pay</button>
+          </div>
+          <div id="payStatusD" style="font-size:14px; color:#64748b;">Awaiting payment…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/last-minute-deals.js"></script>
+</body>
+</html>

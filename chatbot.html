@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Wings AI Travel Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/chatbot.css" />
+  <style>
+    .back-button {
+      color: inherit;
+      text-decoration: none;
+      margin-right: 15px;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    .back-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .quick-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+    }
+  </style>
+  <meta name="description" content="Sky Wings AI chatbot with predictions for India flights and holidays." />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="brand">
+        <a href="modern-flight-booking.html" class="back-button" aria-label="Go back">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div style="font-weight:800;">Sky Wings AI Travel Assistant 💬</div>
+          <div style="font-size:12px;opacity:.8;">Smart flight suggestions and AI-powered predictions for your next Indian journey.</div>
+        </div>
+      </div>
+      <div class="mode-toggle">
+        <i class="fa-regular fa-sun"></i>
+        <input type="checkbox" id="themeToggle" class="toggle" aria-label="Toggle dark mode" />
+        <i class="fa-regular fa-moon"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Chat Panel -->
+    <section class="panel chat" aria-label="Chatbot">
+      <div class="chat-header">
+        <span class="title"><i class="fa-solid fa-robot"></i> Assistant</span>
+        <div class="quick-row">
+          <a href="hotel.html" class="btn" style="background-color: #3b82f6; margin-right: 10px;">
+            <i class="fa-solid fa-hotel"></i> Find Hotels
+          </a>
+          <button class="btn saffron" id="openDashboard" aria-label="Open AI Prediction Dashboard">
+            <i class="fa-solid fa-chart-line"></i> AI Prediction Dashboard
+          </button>
+        </div>
+      </div>
+
+      <div class="chips" role="group" aria-label="Quick replies">
+        <button class="chip" data-msg="Search flights in India">✈️ Search Flights in India</button>
+        <button class="chip" data-msg="Best holiday packages under 10000">🏝️ Best Holiday Packages</button>
+        <button class="chip" data-msg="Predict cheapest time to fly to Delhi">📅 AI Fare Predictions</button>
+        <button class="chip" data-msg="Show current offers">💸 Current Offers</button>
+        <button class="chip" data-msg="Talk to support">📞 Talk to Support</button>
+      </div>
+
+      <div id="log" class="log" aria-live="polite">
+        <div class="msg bot">
+          👋 Namaste! I’m your Sky Wings AI assistant. Ready to plan your perfect trip?
+          <span class="time">now</span>
+        </div>
+        <div class="msg bot">
+          Tip: Try “Find me flights to Goa”, “Predict cheapest time to fly to Delhi”, or “Show 3-day packages under ₹10,000”.
+          <span class="time">now</span>
+        </div>
+      </div>
+
+      <div class="composer">
+        <input id="composer" class="inp" type="text" placeholder="Type a message..." aria-label="Type a message" />
+        <button id="sendBtn" class="btn" aria-label="Send message"><i class="fa-solid fa-paper-plane"></i> Send</button>
+      </div>
+    </section>
+
+    <!-- Predictions Panel -->
+    <aside class="panel pred" aria-label="AI Predictions">
+      <div class="data-card">
+        <div class="data-head">
+          <strong>Best Time to Book</strong>
+          <span class="badge">AI Insight</span>
+        </div>
+        <div id="bestTimeText">Book Goa flights 10–15 days in advance for lowest fares.</div>
+        <div class="bar" aria-hidden="true"><span id="bestTimeBar" style="width: 62%;"></span></div>
+        <div class="actions">
+          <button class="btn" id="shuffleBest">Shuffle</button>
+        </div>
+      </div>
+
+      <div class="data-card">
+        <div class="data-head">
+          <strong>Trending Destinations</strong>
+          <span class="badge">This Month</span>
+        </div>
+        <div id="trendText">Himachal trips are trending 🌄 — 24% rise in searches.</div>
+        <div class="bar" aria-hidden="true"><span id="trendBar" style="width: 48%;"></span></div>
+      </div>
+
+      <div class="data-card">
+        <div class="data-head">
+          <strong>Fare Trends</strong>
+          <span class="badge">Weekly</span>
+        </div>
+        <div id="fareJaipur">Average flight fare to Jaipur: ₹4,299 (↓ 12% this week)</div>
+        <div class="bar" aria-hidden="true"><span id="fareBar" style="width: 36%;"></span></div>
+      </div>
+
+      <div class="data-card">
+        <div class="data-head">
+          <strong>Next Weekend Bookings</strong>
+          <span class="badge">Kerala</span>
+        </div>
+        <div id="keralaBook">Next weekend: 30% more bookings to Kerala 🌿</div>
+        <div class="bar" aria-hidden="true"><span id="keralaBar" style="width: 30%;"></span></div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="/js/chatbot.js"></script>
+</body>
+</html>

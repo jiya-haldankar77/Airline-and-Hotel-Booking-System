@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyWings | Book Flights, Hotels & Holiday Packages</title>
+    <meta name="description" content="Book cheap flights, hotels, and holiday packages with SkyWings. Find the best deals on domestic and international flights.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1406/1406904.png" type="image/png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="modern-flight-booking.css">
+    
+    <!-- Flatpickr for date selection -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <style>
+        /* Additional styles specific to this page */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+            --text: #1f2937;
+            --text-light: #4b5563;
+            --bg: #f3f4f6;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo img {
+            height: 2.5rem;
+            width: auto;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            margin-left: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1436491865332-7a61a109ccce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Search Section */
+        .search-section {
+            max-width: 1280px;
+            margin: -2rem auto 0;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .search-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            color: var(--text-light);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .tab:hover {
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .search-form {
+            padding: 1.5rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.9375rem;
+            line-height: 1.5;
+            color: var(--text);
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: 0;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            top: 50%;
+            right: 0.875rem;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            pointer-events: none;
+            font-size: 0.6em;
+        }
+        
+        .select-wrapper select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-right: 2.5rem;
+        }
+        
+        .swap-button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-end;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .swap-button:hover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: rotate(180deg);
+        }
+        
+        .search-button {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* Filters */
+        .filters {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .filter-toggle {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .filter-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .filter-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .filter-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .filter-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .filter-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+            color: var(--text-light);
+        }
+        
+        .filter-option input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 0.25rem;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+        
+        /* Price Range */
+        .price-range {
+            padding: 0 0.5rem;
+        }
+        
+        .price-range input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin: 1rem 0;
+            outline: none;
+        }
+        
+        .price-range input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .price-range input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        
+        .price-value {
+            font-weight: 600;
+            color: var(--primary);
+            text-align: right;
+            font-size: 0.9375rem;
+        }
+        
+        /* Applied Filters */
+        .applied-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: none; /* Hidden by default */
+        }
+        
+        .applied-filter {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e0f2fe;
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+        
+        .remove-filter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
+            height: 1rem;
+            margin-left: 0.5rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.625rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .remove-filter:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* Results */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .results-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .sort-by {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .sort-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+        
+        /* Flight List */
+        .flight-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        /* Loading */
+        .loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 3px solid rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+        
+        .loading-message {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        
+        /* No Results */
+        .no-results {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+        }
+        
+        .no-results img {
+            max-width: 200px;
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+        
+        .no-results h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        
+        .no-results p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            max-width: 400px;
+        }
+        
+        /* Load More */
+        .load-more {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: var(--text);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1100;
+            max-width: 320px;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast-success {
+            background: var(--success);
+        }
+        
+        .toast-error {
+            background: var(--error);
+        }
+        
+        .toast-warning {
+            background: var(--warning);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--text);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.25rem;
+            transition: all 0.2s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 3rem auto 0;
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Animations */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 240px 1fr;
+            }
+            
+            .nav-menu {
+                gap: 1rem;
+                margin-left: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0.75rem 1rem;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            
+            .filters {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 85%;
+                max-width: 350px;
+                height: 100vh;
+                overflow-y: auto;
+                z-index: 999;
+                transition: left 0.3s ease;
+                margin: 0;
+                border-radius: 0;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .filters.active {
+                left: 0;
+            }
+            
+            .filter-toggle {
+                display: flex;
+            }
+            
+            .search-section {
+                padding: 0 1rem;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            
+            .tabs::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .tab {
+                white-space: nowrap;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .swap-button {
+                margin: 0 auto 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo span {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .sort-by {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/1406/1406904.png" alt="SkyWings">
+                <span>SkyWings</span>
+            </a>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active">Flights</a>
+                <a href="/admin.html" class="nav-link">ADMIN</a>
+                <a href="/holiday.html" class="nav-link">Holiday Packages</a>
+                <a href="/last-minute-deals.html" class="nav-link">Deals</a>
+                <a href="#" class="nav-link">My Bookings</a>
+                <a href="chatbot.html" class="nav-link">Chatbot</a>
+            </nav>
+            
+            <div class="user-actions">
+                
+               <a href="user.html" class="btn-outline">Sign In</a>
+
+                <a href="user.html" class="btn-outline">Sign Up</a>
+
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find & Book Your Perfect Flight</h1>
+            <p>Compare prices from 1000+ airlines and travel agencies to find the best deal for your next trip</p>
+        </div>
+    </section>
+    
+    <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-card">
+            <div class="tabs">
+                <div class="tab active" data-tab="one-way">One Way</div>
+                <div class="tab" data-tab="round-trip">Round Trip</div>
+                <div class="tab" data-tab="multi-city">Multi-City</div>
+            </div>
+            
+            <form id="flightSearchForm" class="search-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="from" class="form-label">From</label>
+                        <div class="select-wrapper">
+                            <select id="from" class="form-control" required>
+                                <option value="">Select city or airport</option>
+                                <option value="DEL">Delhi (DEL)</option>
+                                <option value="BOM">Mumbai (BOM)</option>
+                                <option value="BLR">Bangalore (BLR)</option>
+                                <option value="MAA">Chennai (MAA)</option>
+                                <option value="HYD">Hyderabad (HYD)</option>
+                                <option value="CCU">Kolkata (CCU)</option>
+                                <option value="GOA">Goa (GOA)</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" id="swapLocations" class="swap-button" aria-label="Swap locations">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="to" class="form-label">To</label>
+                        <div class="select-wrapper">
+                            <select id="to" class="form-control" required>
+                                <option value="">Select city or airport</option>
+                                <option value="BOM">Mumbai (BOM)</option>
+                                <option value="DEL">Delhi (DEL)</option>
+                                <option value="BLR">Bangalore (BLR)</option>
+                                <option value="MAA">Chennai (MAA)</option>
+                                <option value="HYD">Hyderabad (HYD)</option>
+                                <option value="CCU">Kolkata (CCU)</option>
+                                <option value="GOA">Goa (GOA)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="departureDate" class="form-label">Departure</label>
+                        <input type="text" id="departureDate" class="form-control" placeholder="Select date" required>
+                    </div>
+                    
+                    <div class="form-group" id="returnDateGroup" style="display: none;">
+                        <label for="returnDate" class="form-label">Return</label>
+                        <input type="text" id="returnDate" class="form-control" placeholder="Select date">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="passengers" class="form-label">Passengers</label>
+                        <div class="select-wrapper">
+                            <select id="passengers" class="form-control">
+                                <option value="1">1 Passenger</option>
+                                <option value="2">2 Passengers</option>
+                                <option value="3">3 Passengers</option>
+                                <option value="4">4 Passengers</option>
+                                <option value="5">5 Passengers</option>
+                                <option value="6">6 Passengers</option>
+                                <option value="7">7 Passengers</option>
+                                <option value="8">8 Passengers</option>
+                                <option value="9">9 Passengers</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cabinClass" class="form-label">Class</label>
+                        <div class="select-wrapper">
+                            <select id="cabinClass" class="form-control">
+                                <option value="economy">Economy</option>
+                                <option value="premium_economy">Premium Economy</option>
+                                <option value="business">Business</option>
+                                <option value="first">First Class</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary search-button">
+                    <i class="fas fa-search"></i> Search Flights
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Filters -->
+        <aside class="filters">
+            <button class="filter-toggle">
+                <i class="fas fa-sliders-h"></i> Filters
+            </button>
+            
+            <div class="filter-overlay"></div>
+            
+            <div class="filter-section">
+                <div class="filter-title">
+                    <span>Price Range</span>
+                    <span id="priceValue" class="price-value">$10,000</span>
+                </div>
+                <div class="price-range">
+                    <input type="range" id="priceRange" min="0" max="10000" step="100" value="10000">
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">
+                    <span>Stops</span>
+                </div>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="checkbox" name="stops" value="0" checked>
+                        <span>Non-stop</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="stops" value="1" checked>
+                        <span>1 Stop</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="stops" value="2+" checked>
+                        <span>2+ Stops</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">
+                    <span>Airlines</span>
+                </div>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="checkbox" name="airlines" value="indigo" checked>
+                        <span>IndiGo</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="airlines" value="air-india" checked>
+                        <span>Air India</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="airlines" value="spicejet" checked>
+                        <span>SpiceJet</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="airlines" value="vistara" checked>
+                        <span>Vistara</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="airlines" value="go-first" checked>
+                        <span>Go First</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">
+                    <span>Departure Time</span>
+                </div>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="checkbox" name="departureTime" value="morning" checked>
+                        <span>Morning (12am - 12pm)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="departureTime" value="afternoon" checked>
+                        <span>Afternoon (12pm - 5pm)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="departureTime" value="evening" checked>
+                        <span>Evening (5pm - 9pm)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="departureTime" value="night" checked>
+                        <span>Night (9pm - 12am)</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">
+                    <span>Arrival Time</span>
+                </div>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="checkbox" name="arrivalTime" value="morning" checked>
+                        <span>Morning (12am - 12pm)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="arrivalTime" value="afternoon" checked>
+                        <span>Afternoon (12pm - 5pm)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="arrivalTime" value="evening" checked>
+                        <span>Evening (5pm - 9pm)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="arrivalTime" value="night" checked>
+                        <span>Night (9pm - 12am)</span>
+                    </label>
+                </div>
+            </div>
+            
+            <button id="clearFilters" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;">
+                Clear All Filters
+            </button>
+        </aside>
+        
+        <!-- Results -->
+        <main class="results">
+            <div class="results-header">
+                
+                <div class="sort-by">
+                    <span class="sort-label">Sort by:</span>
+                    <div class="select-wrapper" style="min-width: 180px;">
+                        <select id="sortBy" class="form-control">
+                            <option value="price_asc">Price (Low to High)</option>
+                            <option value="price_desc">Price (High to Low)</option>
+                            <option value="duration_asc">Duration (Shortest)</option>
+                            <option value="departure_asc">Departure (Earliest)</option>
+                            <option value="arrival_asc">Arrival (Earliest)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Applied Filters -->
+            <div class="applied-filters">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-message">Searching for flights...</div>
+            </div>
+            
+            <!-- No Results -->
+            <div class="no-results">
+                <img src="https://cdn-icons-png.flaticon.com/512/4076/4076478.png" alt="No flights found">
+                <h3>No flights found</h3>
+                <p>We couldn't find any flights matching your criteria. Try adjusting your filters.</p>
+                <button id="resetFilters" class="btn btn-primary">
+                    Reset Filters
+                </button>
+            </div>
+            
+            <!-- Flight List -->
+            <div class="flight-list" id="flightResults">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            
+            <!-- Load More -->
+            <div class="load-more">
+                <button id="loadMore" class="btn btn-outline" style="display: none;">
+                    Load More Flights
+                </button>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.875rem; line-height: 1.6; margin-top: 1rem;">
+                    SkyWings is a leading online travel platform that helps you find and book flights, hotels, and holiday packages at the best prices.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Flights</a></li>
+                    <li><a href="/chatbot.html">Chatbot</a></li>
+                    <li><a href="/holiday.html">Holiday Packages</a></li>
+                    <li><a href="/last-minute-deals.html">Deals & Offers</a></li>
+                    <li><a href="#">My Bookings</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Cancellation Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 1rem;">
+                        <i class="fas fa-map-marker-alt" style="margin-top: 0.25rem;"></i>
+                        <span>123 Sky Tower, Main Street, New Delhi, India - 110001</span>
+                    </li>
+                    <li style="margin-bottom: 1rem;">
+                        <a href="tel:+911234567890" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>+91 12345 67890</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:info@skywings.com" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@skywings.com</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            &copy; 2023 SkyWings. All Rights Reserved.
+        </div>
+    </footer>
+    
+    <!-- Toast Notification -->
+    <div class="toast"></div>
+    
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="modern-flight-booking.js"></script>
+    
+    <script>
+        // Initialize date pickers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum date to today
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            // Format date as YYYY-MM-DD
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+            
+            // Set default dates in the input fields
+            document.getElementById('departureDate').value = formatDate(today);
+            document.getElementById('returnDate').value = formatDate(tomorrow);
+            
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show/hide return date based on tab
+                    const returnDateGroup = document.getElementById('returnDateGroup');
+                    if (this.getAttribute('data-tab') === 'round-trip') {
+                        returnDateGroup.style.display = 'block';
+                    } else {
+                        returnDateGroup.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Swap locations
+            const swapButton = document.getElementById('swapLocations');
+            if (swapButton) {
+                swapButton.addEventListener('click', function() {
+                    const fromInput = document.getElementById('from');
+                    const toInput = document.getElementById('to');
+                    const temp = fromInput.value;
+                    fromInput.value = toInput.value;
+                    toInput.value = temp;
+                    
+                    // Trigger search if we have values
+                    if (fromInput.value && toInput.value) {
+                        document.getElementById('flightSearchForm').dispatchEvent(new Event('submit'));
+                    }
+                });
+            }
+            
+            // Price range
+            const priceRange = document.getElementById('priceRange');
+            const priceValue = document.getElementById('priceValue');
+            
+            if (priceRange && priceValue) {
+                // Format number with commas
+                const formatNumber = (num) => {
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                };
+                
+                // Update price display when slider changes
+                priceRange.addEventListener('input', function() {
+                    priceValue.textContent = `$${formatNumber(this.value)}`;
+                });
+                
+                // Set initial value
+                priceValue.textContent = `$${formatNumber(priceRange.value)}`;
+            }
+        });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const codeToCity = { DEL: 'Delhi', BOM: 'Mumbai', BLR: 'Bangalore', MAA: 'Chennai', HYD: 'Hyderabad', CCU: 'Kolkata', GOA: 'Goa' };
+        const form = document.getElementById('flightSearchForm');
+        const resultsEl = document.getElementById('flightResults');
+        const noResultsEl = document.querySelector('.no-results');
+        const loadingEl = document.querySelector('.loading');
+        const fromCityEl = document.getElementById('fromCity');
+        const toCityEl = document.getElementById('toCity');
+        const formatRs = (v) => `RS.${Number(v||0).toLocaleString('en-IN', { maximumFractionDigits: 0, minimumFractionDigits: 0 })}`;
+        const PRICE_MAP_FRONT = {
+          AI101: 4000,
+          '6E202': 4000,
+          AI303: 6800,
+          SG404: 4000,
+          UK505: 5000,
+          '6E606': 6800,
+          '6E404': 4000,
+          SG606: 5000,
+          AI707: 6800,
+          '6E808': 5000,
+          UK909: 5000,
+          SG010: 4000,
+          AI111: 6800,
+          '6E212': 4000
+        };
+
+        const renderFlights = (arr, date) => {
+          resultsEl.innerHTML = '';
+          arr.forEach(f => {
+            const card = document.createElement('div');
+            card.className = 'flight-card fade-in';
+            card.style.background = 'var(--white)';
+            card.style.borderRadius = 'var(--radius-lg)';
+            card.style.boxShadow = 'var(--shadow)';
+            card.style.padding = '1rem';
+            const code = String(f.id || '').trim().toUpperCase();
+            const priceVal = Number(f.price) > 0 ? Number(f.price) : (PRICE_MAP_FRONT[code] ?? 5000);
+            // Format departure and arrival times
+            const departureTime = f.departureTime ? 
+              new Date(`2000-01-01T${f.departureTime}`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : 
+              'N/A';
+              
+            const arrivalTime = f.arrivalTime ? 
+              new Date(`2000-01-01T${f.arrivalTime}`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : 
+              'N/A';
+
+            card.innerHTML = `
+              <div style="display:flex;justify-content:space-between;gap:1rem;align-items:center;">
+                <div style="min-width:140px;font-weight:600;color:var(--primary)">${f.airline || 'N/A'}</div>
+                <div style="flex:1;display:flex;gap:1rem;justify-content:space-between;">
+                  <div>
+                    <div style="font-size:0.8rem;color:var(--text-light)">From</div>
+                    <div style="font-weight:600">${f.from || 'N/A'}</div>
+                    <div style="font-size:0.85rem">${departureTime}</div>
+                  </div>
+                  <div style="text-align:center;padding:0 1rem;">
+                    <div style="font-size:0.8rem;color:var(--text-light)">${f.duration || ''}</div>
+                    <div style="height:1px;background:var(--border-color);width:80px;margin:0.5rem auto;position:relative;">
+                      <div style="position:absolute;top:-4px;left:0;width:8px;height:8px;border-radius:50%;background:var(--primary);"></div>
+                      <div style="position:absolute;top:-4px;right:0;width:8px;height:8px;border-radius:50%;background:var(--primary);"></div>
+                    </div>
+                    <div style="font-size:0.8rem;color:var(--text-light)">Direct</div>
+                  </div>
+                  <div>
+                    <div style="font-size:0.8rem;color:var(--text-light)">To</div>
+                    <div style="font-weight:600">${f.to || 'N/A'}</div>
+                    <div style="font-size:0.85rem">${arrivalTime}</div>
+                  </div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:0.8rem;color:var(--text-light)">Price</div>
+                  <div style="font-weight:700;color:var(--success)">${formatRs(priceVal)}</div>
+                  <div style="font-size:0.8rem;color:var(--text-light)">Status</div>
+                  <div style="font-weight:600">${f.status ?? ''}</div>
+                  <div style="font-size:0.8rem;color:var(--text-light)">ID: ${f.id ?? ''}</div>
+                  <a href="booking.html?flightId=${f.id || ''}&from=${encodeURIComponent(f.from || '')}&to=${encodeURIComponent(f.to || '')}&date=${date || ''}&price=${priceVal}" 
+                     class="btn btn-primary" 
+                     style="margin-top: 0.5rem; display: inline-block; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; text-align: center;">
+                    Book Now
+                  </a>
+                </div>
+              </div>
+            `;
+            resultsEl.appendChild(card);
+          });
+        };
+
+        if (form) {
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const from = document.getElementById('from').value.toUpperCase();
+            const to = document.getElementById('to').value.toUpperCase();
+            const date = document.getElementById('departureDate').value;
+            
+            if (fromCityEl) fromCityEl.textContent = codeToCity[from] || from;
+            if (toCityEl) toCityEl.textContent = codeToCity[to] || to;
+
+            loadingEl && (loadingEl.style.display = 'flex');
+            noResultsEl && (noResultsEl.style.display = 'none');
+            resultsEl.innerHTML = '';
+
+            try {
+              // Format date to YYYY-MM-DD if not already
+              const formattedDate = date || formatDate(new Date());
+              
+              // Map airport codes to full city names
+              const cityMap = {
+                'DEL': 'Delhi',
+                'BOM': 'Mumbai',
+                'MAA': 'Chennai',
+                'BLR': 'Bangalore',
+                'GOI': 'Goa',
+                'CCU': 'Kolkata',
+                'PNQ': 'Pune'
+              };
+              
+              // Convert airport codes to city names if needed
+              const fromCity = cityMap[from.toUpperCase()] || from;
+              const toCity = cityMap[to.toUpperCase()] || to;
+              
+              // Use the correct endpoint with the right parameter names
+              const params = new URLSearchParams({
+                departure: fromCity,
+                destination: toCity,
+                date: formattedDate
+              });
+              
+              const url = `http://localhost:3000/api/flights/search?${params}`;
+              console.log('Fetching from:', url);
+              
+              let res = await fetch(url);
+              const data = await res.json();
+              
+              if (!res.ok) {
+                throw new Error(data.error || 'Failed to fetch flights');
+              }
+              
+              // Make sure we have valid flight data
+              if (!data.success || !Array.isArray(data.flights)) {
+                throw new Error('No flights found for the selected route and date');
+              }
+              
+              // Add flight ID to each flight object for booking
+              const flightsWithIds = data.flights.map(flight => ({
+                ...flight,
+                id: flight.flight_id,
+                from: flight.source,
+                to: flight.destination,
+                departureTime: flight.departure_time ? 
+                  new Date(flight.departure_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }) : 
+                  null,
+                arrivalTime: flight.arrival_time ? 
+                  new Date(flight.arrival_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }) : 
+                  null,
+                duration: flight.duration || '2h 30m' // Default duration if not provided
+              }));
+              
+              // Render the flights
+              renderFlights(flightsWithIds, formattedDate);
+              return;
+              } catch (err) {
+                console.error('Network error:', err);
+                throw new Error('Failed to connect to the server. Please check your connection.');
+              }
+          });
+        }
+      });
+    </script>
+</body>
+</html>
